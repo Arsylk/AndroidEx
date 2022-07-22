@@ -19,3 +19,4 @@ dependencyResolutionManagement {
 rootProject.name = "AndroidEx"
 include(":app")
 include(":lib")
+include(":lint")
