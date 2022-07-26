@@ -10,7 +10,8 @@ lint {
 }
 
 dependencies {
-    compileOnly("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10")
+    compileOnly("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
+    compileOnly("org.jetbrains.kotlin:kotlin-reflect:1.6.21")
     compileOnly("com.android.tools.lint:lint-api:30.2.1")
     testImplementation("junit:junit:4.13.2")
 }

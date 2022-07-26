@@ -39,7 +39,7 @@ inline fun DebounceEx.withDebounce(
 @OptIn(ExperimentalContracts::class)
 fun DebounceEx.launchWithDebounce(
     context: CoroutineContext = Dispatchers.IO,
-    tag: String = LOADING_TAG,
+    tag: String = DEBOUNCE_TAG,
     block: suspend CoroutineScope.() -> Unit,
 ): Job? {
     contract { callsInPlace(block, kind = InvocationKind.AT_MOST_ONCE) }
