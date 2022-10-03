@@ -3,6 +3,7 @@ package com.arsylk.androidex.lib.domain.sync.group
 import com.arsylk.androidex.lib.domain.sync.component.ISyncGroup
 import com.arsylk.androidex.lib.domain.sync.SyncGroupStore
 import com.arsylk.androidex.lib.domain.sync.component.DSL
+import com.arsylk.androidex.lib.domain.sync.component.ISyncModule
 import com.arsylk.androidex.lib.domain.sync.component.SyncComponent
 
 
@@ -24,9 +25,12 @@ class RootSyncGroup(
 
             var i = 0
             fun iterate(component: SyncComponent) {
-                component.id = i++
-                if (component is ISyncGroup) {
-                    component.components.forEach(::iterate)
+                when (component) {
+                    is ISyncModule -> component.id = i++
+                    is ISyncGroup -> {
+                        component.id = i++
+                        component.components.forEach(::iterate)
+                    }
                 }
             }
             iterate(root)

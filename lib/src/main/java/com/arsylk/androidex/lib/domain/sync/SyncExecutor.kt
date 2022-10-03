@@ -1,6 +1,5 @@
 package com.arsylk.androidex.lib.domain.sync
 
-import android.os.SystemClock
 import com.arsylk.androidex.lib.domain.sync.component.ISyncGroup
 import com.arsylk.androidex.lib.domain.sync.component.ISyncModule
 import com.arsylk.androidex.lib.domain.sync.component.SyncComponent
@@ -12,8 +11,8 @@ import com.arsylk.androidex.lib.domain.sync.model.SyncModuleException
 import com.arsylk.androidex.lib.domain.sync.model.SyncResult
 import com.arsylk.androidex.lib.domain.sync.module.SyncModuleContext
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.catch
@@ -26,15 +25,11 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
-import java.lang.IllegalStateException
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.minutes
-import kotlin.time.Duration.Companion.seconds
 
+@OptIn(FlowPreview::class)
 class SyncExecutor {
     private val scope = CoroutineScope(Job())
     val progress = SyncStateStore()

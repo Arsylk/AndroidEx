@@ -20,7 +20,7 @@ fun sync(block: RootSyncGroup.Builder.() -> Unit): RootSyncGroup {
     return RootSyncGroup.Builder().apply(block).build()
 }
 
-fun RootSyncGroup.iterate(sort: Boolean): List<SyncComponent> {
+fun ISyncGroup.iterate(sort: Boolean): List<SyncComponent> {
     val comparator = compareBy<SyncComponent> { it.order }.thenBy { it.id }
     return buildList {
         fun inner(component: SyncComponent) {

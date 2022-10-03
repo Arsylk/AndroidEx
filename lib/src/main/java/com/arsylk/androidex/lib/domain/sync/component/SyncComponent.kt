@@ -2,7 +2,7 @@ package com.arsylk.androidex.lib.domain.sync.component
 
 sealed interface SyncComponent {
     /** Unique in [RootSyncGroup] */
-    var id: Int
+    val id: Int
     val tag: String
     val required: Boolean
     val weight: Float

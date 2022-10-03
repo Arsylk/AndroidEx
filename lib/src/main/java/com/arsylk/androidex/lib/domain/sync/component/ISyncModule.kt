@@ -8,7 +8,8 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
 abstract class ISyncModule : SyncComponent {
-    override var id: Int = 0
+    final override var id: Int = 0
+        internal set
     open val modifiers: List<FlowModifier> = emptyList()
     open val timeout: Long = Long.MAX_VALUE
 

@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), LifecycleEx {
 
     private fun setupObservers() {
         viewModel.service.cyclic.progress.onProgress.receiveAsFlow().collectOnResumed {
-            adapter.setProgress(it)
+            adapter.updateProgress(it)
         }
     }
 }

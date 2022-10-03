@@ -3,7 +3,6 @@ package com.arsylk.androidex.app
 import com.arsylk.androidex.app.databinding.ItemSyncBinding
 import com.arsylk.androidex.lib.domain.sync.SimpleProgress
 import com.arsylk.androidex.lib.domain.sync.SyncStateStore
-import com.arsylk.androidex.lib.domain.sync.component.ISyncGroup
 import com.arsylk.androidex.lib.domain.sync.component.SyncComponent
 import com.arsylk.androidex.lib.domain.sync.group.RootSyncGroup
 import com.arsylk.androidex.lib.domain.sync.iterate
@@ -14,26 +13,28 @@ import com.arsylk.androidex.lib.ui.diff.idDiffUtilList
 
 class Adapter : AdaptableRecyclerAdapter<Item>() {
     override var items: List<Item> by idDiffUtilList()
+    private var store: SyncStateStore? = null
 
     fun submitData(root: RootSyncGroup, store: SyncStateStore) {
-        items = root.iterate(sort = true).map { Item(it, store[it]) }
+        this.store = store
+        items = root.iterate(sort = true).map { Item(it) }
     }
 
-    fun setProgress(pair: Pair<SyncComponent, SimpleProgress>) {
+    fun updateProgress(component: SyncComponent) {
         items.forEachIndexed { i, item ->
-            if (item.id == pair.first.id) {
-                item.p = pair.second
+            if (item.id == component.id) {
                 notifyItemChanged(i, Any())
             }
         }
     }
 
     init {
+        val adapter = this
         adapt<Item, ItemSyncBinding> {
             inflate(ItemSyncBinding::inflate)
             bind {
                 binding.title.text = item.component.tag
-                binding.message.text = when (val r = item.p?.result) {
+                binding.message.text = when (val r = adapter.store?.get(item.component)?.result) {
                     is SyncResult.Success, is SyncResult.Error -> r.toString()
                     is SyncResult.Progress -> "Progress(${r.percentage})"
                     null -> null
@@ -45,7 +46,6 @@ class Adapter : AdaptableRecyclerAdapter<Item>() {
 
 data class Item(
     val component: SyncComponent,
-    var p: SimpleProgress?,
 ) : IntId {
     override val id: Int get() = component.id
 }
