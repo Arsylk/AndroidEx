@@ -11,7 +11,7 @@ fun <T: Any> diffUtilList(
     callback: (oldList: List<T>, newList: List<T>) -> DiffUtil.Callback
 ) = AdapterDiffDelegate(callback)
 
-inline fun <T: Any> simpleDifUtilList(
+inline fun <T: Any> simpleDiffUtilList(
     crossinline areItemsTheSame: (oldItem: T, newItem: T) -> Boolean = { _, _ -> true },
     crossinline areContentsTheSame: (oldItem: T, newItem: T) -> Boolean,
 ) = diffUtilList(callback = { oldList: List<T>, newList: List<T> ->
