@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 
 
-data class SyncModule(
+class SyncModule(
     override val tag: String,
     override val required: Boolean,
     override val weight: Float,
@@ -16,7 +16,7 @@ data class SyncModule(
     override val condition: suspend ISyncComponentContext.() -> Boolean,
     override val timeout: Long,
     override val modifiers: List<FlowModifier>,
-    val action: suspend SyncModuleContext.() -> Unit,
+    private val action: suspend SyncModuleContext.() -> Unit,
 ) : ISyncModule() {
 
     override fun flow(context: SyncModuleContext) =

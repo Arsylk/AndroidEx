@@ -1,7 +1,6 @@
 package com.arsylk.androidex.app
 
 import com.arsylk.androidex.app.databinding.ItemSyncBinding
-import com.arsylk.androidex.lib.domain.sync.SimpleProgress
 import com.arsylk.androidex.lib.domain.sync.SyncStateStore
 import com.arsylk.androidex.lib.domain.sync.component.SyncComponent
 import com.arsylk.androidex.lib.domain.sync.group.RootSyncGroup

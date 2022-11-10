@@ -6,7 +6,7 @@ import android.view.View
 import androidx.activity.viewModels
 import com.arsylk.androidex.app.databinding.ActivityMainBinding
 import com.arsylk.androidex.lib.domain.lifecycle.LifecycleEx
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.delay
 
 class MainActivity : AppCompatActivity(), LifecycleEx {
     private var binding: ActivityMainBinding? = null
@@ -32,8 +32,15 @@ class MainActivity : AppCompatActivity(), LifecycleEx {
     }
 
     private fun setupObservers() {
-        viewModel.service.cyclic.progress.onProgress.receiveAsFlow().collectOnResumed {
-            adapter.updateProgress(it)
+        repeatOnResumed {
+            for (update in viewModel.service.cyclic.progress.onProgress) {
+                delay(2000)
+                println("received: $update")
+                adapter.updateProgress(update.result.component)
+                for ((key, _) in update.undelivered)
+                    adapter.updateProgress(key)
+            }
         }
+        viewModel.service.cyclic.
     }
 }

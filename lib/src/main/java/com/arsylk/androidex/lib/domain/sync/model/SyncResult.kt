@@ -8,7 +8,7 @@ sealed class SyncResult {
     ) : SyncResult() {
         override val percentage = 100.0f
     }
-    class Progress(
+    data class Progress(
         override val percentage: Float,
         val message: String? = null,
     ) : SyncResult()

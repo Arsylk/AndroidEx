@@ -19,79 +19,39 @@ class Service {
     val root = sync {
         group {
             tag = "nya"
-            concurrency = 2
+            concurrency = 3
             module {
                 tag = "module 1"
                 action {
-                    postProgress(32)
-                    delay(2000)
-                    postProgress(94)
-                    delay(1000)
-                    store += cyclic
+                    for (i in 0 until 100) {
+                        postProgress(i)
+                        delay(100)
+                    }
                 }
             }
             module {
                 tag = "module 2"
-                action { delay(4000) }
-            }
-        }
-        group {
-            tag = "group 2"
-            required = true
-            group {
-                tag = "inner group 1"
-                module {
-                    action { throw IllegalStateException("hi") }
+                action {
+                    delay(200)
+                    postProgress(3)
+                    delay(4000)
                 }
             }
-            group {
-                tag = "inner group 2"
-                module {
-                    tag = "await"
-                    action {
-                        postProgress(1)
-                        println("started awaiting")
-                        val executor: SyncExecutor = store.awaitForever()
-                        println("stopped: $executor")
-                        postProgress(99)
-                        delay(2000)
+            module {
+                tag = "module 3"
+                action {
+                    for (i in 0 until 100) {
+                        postProgress(i)
+                        delay(200)
                     }
+                    delay(4000)
                 }
             }
-            group {
-                tag = "concurrent"
-                concurrency = 5
-                module {
-                    tag = "send 1"
-                    action {
-                        delay(1000)
-                        store["1"] = "123"
-                    }
-                }
-                module {
-                    tag = "send 2"
-                    action {
-                        delay(3000)
-                        store["2"] = 5239
-                    }
-                }
-                module {
-                    tag = "receive 1"
-                    action {
-                        postProgress(1)
-                        val got = store.awaitForever<String>("1")
-                        postProgress(99)
-                        delay(500)
-                    }
-                }
-                module {
-                    tag = "receive 2"
-                    action {
-                        postProgress(1)
-                        val got = store.awaitForever<Int>("2")
-                        postProgress(99)
-                        delay(500)
-                    }
+            module {
+                tag = "module 4"
+                action {
+                    postProgress(32, "test")
+                    delay(2000)
                 }
             }
         }
